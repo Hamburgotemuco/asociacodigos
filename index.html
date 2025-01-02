@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos - Interfaz Alternativa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid #dee2e6;
+            border-bottom: none;
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        .tab.active {
+            background: #ffffff;
+            color: #007bff;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        button:hover:enabled {
+            background: #0056b3;
+        }
+        .output {
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Productos</h1>
+        <div class="tabs">
+            <div class="tab active" data-tab="buscar">Buscar Producto Madre</div>
+            <div class="tab" data-tab="agregar">Agregar Hijo</div>
+            <div class="tab" data-tab="eliminar">Eliminar Hijo</div>
+        </div>
+
+        <div class="tab-content active" id="buscar">
+            <h2>Buscar Producto Madre</h2>
+            <label for="codigo">Código del Producto Madre:</label>
+            <input type="text" id="codigo" placeholder="Ejemplo: 010101">
+        
+            <label for="buscarDescripcion">Buscar por Descripción:</label>
+            <input type="text" id="buscarDescripcion" placeholder="Buscar por descripción...">
+            <div id="sugerencias" style="border: 1px solid #ccc; max-height: 200px; overflow-y: auto;"></div>
+        
+            <div class="output" id="resultado">
+                Ingrese un código para ver los detalles del producto.
+            </div>
+        </div>
+        
+
+        <div class="tab-content" id="agregar">
+            <h2>Agregar un Código Hijo</h2>
+            <label for="nuevoCodigo">Código del Hijo:</label>
+            <input type="text" id="nuevoCodigo" placeholder="Ejemplo: 0103">
+            <label for="nuevoNombre">Nombre del Hijo:</label>
+            <input type="text" id="nuevoNombre" placeholder="Nombre del producto hijo">
+            <button id="agregarHijo" disabled>Agregar Código Hijo</button>
+        </div>
+
+        <div class="tab-content" id="eliminar">
+            <h2>Eliminar un Código Hijo</h2>
+            <label for="eliminarCodigo">Seleccione el Código del Hijo:</label>
+            <select id="eliminarCodigo" disabled>
+                <option value="">Seleccione un código</option>
+            </select>
+            <button id="eliminarHijo" disabled>Eliminar Código Hijo</button>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Enable buttons only after a search is made
+        document.getElementById('codigo').addEventListener('input', () => {
+            const codigoMadre = document.getElementById('codigo').value.trim();
+            const agregarHijoBtn = document.getElementById('agregarHijo');
+            const eliminarHijoBtn = document.getElementById('eliminarHijo');
+            const eliminarCodigoSelect = document.getElementById('eliminarCodigo');
+
+            if (codigoMadre) {
+                // Simulate product search success
+                setTimeout(() => {
+                    agregarHijoBtn.disabled = false;
+                    eliminarHijoBtn.disabled = false;
+                    eliminarCodigoSelect.disabled = false;
+                }, 500); // Simulate a delay for search
+            } else {
+                agregarHijoBtn.disabled = true;
+                eliminarHijoBtn.disabled = true;
+                eliminarCodigoSelect.disabled = true;
+            }
+        });
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
